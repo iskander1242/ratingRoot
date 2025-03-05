@@ -22,5 +22,17 @@ services:
       - database
     ports:
       - 8099:8099
+  rating-service2:
+    image: rednavis/rating-service2
+    build: ../rating2
+    mem_limit: 2G
+    environment:
+      DATABASE_URL: jdbc:postgresql://database:5433/ratingDB
+      DATABASE_USERNAME: admin
+      DATABASE_PASSWORD: admin
+    depends_on:
+      - database
+    ports:
+      - 8098:8099
 volumes:
   backend_db_data:
