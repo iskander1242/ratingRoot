@@ -1,0 +1,26 @@
+services:
+  database:
+    image: bitnami/postgresql
+    environment:
+      POSTGRESQL_DATABASE: ratingDB
+      POSTGRESQL_USERNAME: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRESQL_PORT_NUMBER: 5433
+    ports:
+      - 5433:5433
+    volumes:
+      - backend_db_data:/var/lib/postgresql/data
+  rating-service:
+    image: rednavis/rating-service
+    build: ../ratingGit
+    mem_limit: 2G
+    environment:
+      DATABASE_URL: jdbc:postgresql://database:5433/ratingDB
+      DATABASE_USERNAME: admin
+      DATABASE_PASSWORD: admin
+    depends_on:
+      - database
+    ports:
+      - 8099:8099
+volumes:
+  backend_db_data:
